@@ -123,6 +123,7 @@ public class UpdateIndex {
 				System.out.println("失败信息:" + message);
 			}
 
+
 			@Override
 			public void afterBulk(long executionId, BulkRequest request, BulkResponse response) {
 				boolean hasFailures = response.hasFailures();
