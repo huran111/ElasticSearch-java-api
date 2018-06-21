@@ -87,6 +87,45 @@ public class QueryTest {
         // 而后者的匹配字符则受到限制。 和前缀查询一样，通配符查询指定字段是未分析的 （not	analyzed）
         QueryBuilder queryBuilder3 = QueryBuilders.wildcardQuery("user", "k?mc*");
         //正则表达式查询
+        QueryBuilders.regexpQuery("name.first", "s.*y");
+        //模糊查询查询指定字段包含与指定术语模糊相似的术语的文档。模糊性测量为1或2的 Levenshtein。
+        //如果指定的字段是string类型，模糊查询是基于编辑距离算法来匹配文档。编辑距
+        // 离的计算基于我们提供的查询词条和被搜索文档。如果指定的字段是数值类型或者 日期类型，模糊查询基于在字段值上进行加减操作来匹配文档
+        // 此查询很占用CPU资源，但当需要模糊匹配 时它很有用，例如，当用户拼写错误时。
+        // 另外我们可以在搜索词的尾部加上字符 “~”	来进行模糊查询。
+        QueryBuilders.fuzzyQuery("name", "vluae");
+        //类型查询
+        QueryBuilders.typeQuery("my_type");
+        //ID查询
+        QueryBuilders.idsQuery().addIds("1", "3", "199");
+
+    }
+
+    /**
+     * 复合查询
+     */
+    public void compoundQuery() {
+        QueryBuilders.constantScoreQuery(QueryBuilders.termQuery("name", "value"))
+                .boost(2.0f);
+        //bool查询 组合多个并发查询或复合查询的默认查询类型
+        //例如must,	should, must_not,	以及	filter	条件。	在	must	和	should	子句他们的分数相结合-匹配条件越 多，
+        // 预期越好-而	must_not	和	filter	子句在过滤器上下文中执行。
+        QueryBuilders.boolQuery()
+                .must(QueryBuilders.termQuery("name", "value"))
+                .must(QueryBuilders.termQuery("name1", "value1"))
+                .mustNot(QueryBuilders.termQuery("name2", "value2"))
+                .should(QueryBuilders.termQuery("name3", "value3"))
+                .filter(QueryBuilders.termQuery("name4", "value4"));//与一般查询作用一样，只不过不参与评分
+        //dis_max查询
+        //支持多并发查询的查询，并可返回与任意查询条件子句匹配的任何文档类型。与 bool	查询可以将所有匹配查询的分数相结合使用的方式不同的是，
+        // dis_max	查询只 使用最佳匹配查询条件的分数
+        QueryBuilders.disMaxQuery().add(QueryBuilders.termQuery("name", "value"))
+                .add(QueryBuilders.termQuery("name1", "value1"))
+                .boost(1.2f).tieBreaker(0.7f);
+        //indices查询
+        //对指定的索引执行一个查询，对其他的索引值另一个查询
+        QueryBuilders.indicesQuery(QueryBuilders.termQuery("name", "value"), "index1", "index2")
+                .noMatchQuery(QueryBuilders.termQuery("tag", "kow"));
 
     }
 }
