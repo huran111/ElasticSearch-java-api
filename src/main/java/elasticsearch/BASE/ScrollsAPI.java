@@ -1,15 +1,6 @@
-package elasticsearch;
+package elasticsearch.BASE;
 
-import java.net.InetAddress;
-import java.net.UnknownHostException;
-
-import org.elasticsearch.action.search.ClearScrollAction;
-import org.elasticsearch.action.search.ClearScrollRequest;
-import org.elasticsearch.action.search.ClearScrollRequestBuilder;
-import org.elasticsearch.action.search.ClearScrollResponse;
-import org.elasticsearch.action.search.MultiSearchResponse;
-import org.elasticsearch.action.search.SearchRequestBuilder;
-import org.elasticsearch.action.search.SearchResponse;
+import org.elasticsearch.action.search.*;
 import org.elasticsearch.client.transport.TransportClient;
 import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.common.transport.InetSocketTransportAddress;
@@ -21,6 +12,9 @@ import org.elasticsearch.search.sort.SortOrder;
 import org.elasticsearch.transport.client.PreBuiltTransportClient;
 import org.junit.Before;
 import org.junit.Test;
+
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 
 public class ScrollsAPI  {
 	private TransportClient client;
@@ -35,7 +29,7 @@ public class ScrollsAPI  {
 
 			// 创建client
 			client = new PreBuiltTransportClient(settings)
-					.addTransportAddress(new InetSocketTransportAddress(InetAddress.getByName("10.67.51.67"), 9300));
+					.addTransportAddress(new InetSocketTransportAddress(InetAddress.getByName("localhost"), 9300));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

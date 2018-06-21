@@ -1,11 +1,4 @@
-package elasticsearch;
-
-import java.io.IOException;
-import java.net.InetAddress;
-import java.net.UnknownHostException;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+package elasticsearch.BASE;
 
 import org.elasticsearch.action.ActionListener;
 import org.elasticsearch.action.delete.DeleteResponse;
@@ -18,18 +11,22 @@ import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.common.transport.InetSocketTransportAddress;
 import org.elasticsearch.common.xcontent.XContentBuilder;
 import org.elasticsearch.common.xcontent.XContentFactory;
-import org.elasticsearch.index.query.QueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.index.reindex.BulkByScrollResponse;
 import org.elasticsearch.index.reindex.DeleteByQueryAction;
-import org.elasticsearch.index.reindex.DeleteByQueryRequest;
 import org.elasticsearch.search.aggregations.Aggregation;
-import org.elasticsearch.search.aggregations.AggregationBuilder;
 import org.elasticsearch.search.aggregations.AggregationBuilders;
 import org.elasticsearch.search.aggregations.bucket.histogram.DateHistogramInterval;
 import org.elasticsearch.transport.client.PreBuiltTransportClient;
 import org.junit.Before;
 import org.junit.Test;
+
+import java.io.IOException;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * 创建索引
@@ -49,7 +46,7 @@ public class CreateIndex {
 
 			// 创建client
 			client = new PreBuiltTransportClient(settings)
-					.addTransportAddress(new InetSocketTransportAddress(InetAddress.getByName("10.67.51.67"), 9300));
+					.addTransportAddress(new InetSocketTransportAddress(InetAddress.getByName("localhost"), 9300));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
